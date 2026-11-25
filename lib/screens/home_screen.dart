@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../constants.dart';
 import 'newsfeed_screen.dart';
+import 'notification_screen.dart';
 import 'widgets/custom_text.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,12 +27,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        shadowColor: fbTextColorWhite,
+        shadowColor: appSurface,
         elevation: 2,
         title: CustomText(
-          text: 'Facebook',
+          text: const [appName, 'Notifications', 'Profile'][_selectedIndex],
           fontSize: ScreenUtil().setSp(25),
-          color: fbPrimary,
+          color: appPrimary,
           fontWeight: FontWeight.w700,
         ), // CustomText
       ), // AppBar
@@ -39,7 +40,18 @@ class _HomeScreenState extends State<HomeScreen> {
         controller: _pageController,
         children: const [
           NewsFeedScreen(showAppBar: false),
-          Center(child: Text('No notifications')),
+          NotificationScreen(),
+          Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(child: Icon(Icons.person)),
+                SizedBox(height: 12),
+                Text('Listana'),
+                Text('Tambayan member'),
+              ],
+            ),
+          ),
         ],
         onPageChanged: (page) {
           setState(() {
@@ -58,8 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.notifications),
             label: 'Notifications',
           ), // BottomNavigationBarItem
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
-        selectedItemColor: fbPrimary,
+        selectedItemColor: appPrimary,
         currentIndex: _selectedIndex,
       ), // BottomNavigationBar
     ); // Scaffold
